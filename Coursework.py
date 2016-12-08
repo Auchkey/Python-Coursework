@@ -22,10 +22,12 @@ def getInputs(): #calls functions which get colour and window size inputs from u
 
 def getPatchSize(): # Get valid patchwork size from user.
     while True:
-        size = eval(input("Please enter the size of the patchwork (valid sizes are 5, 7 and 9): \n"))
-        if size % 2 != 0 and size > 4 and size < 10: # If an odd number between 5 and 9.
-            break
-        print ("That's not a valid size (5, 7 or 9)!\n")
+        try:
+            size = int(input("Please enter the size of the patchwork (valid sizes are 5, 7 and 9): \n"))
+            if size % 2 != 0 and size > 4 and size < 10: # If an odd number between 5 and 9:
+                break
+        except ValueError: # If not an integer:
+            print("That's not a valid size! (Enter: 5, 7 or 9)\n")
     return size
 
 
