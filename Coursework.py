@@ -10,10 +10,10 @@ def main():
 
 #LEVEL 1
 
-def getInputs(): #calls functions which get colour and window size inputs from user, then creates the window.
+def getInputs(): # Calls functions which get colour and window size inputs from user, then creates the window.
     size = getPatchSize()
     selectedColours = getColours()
-    win = GraphWin("Patchwork", size*100, size*100) #size of window is inputted size * 100 (pixels), as each patch is 100x100 pixels.
+    win = GraphWin("Patchwork", size*100, size*100) # Size of window is inputted size * 100 (pixels), as each patch is 100x100 pixels.
     win.setBackground("white")
     return win, selectedColours, size
 
@@ -26,27 +26,24 @@ def getPatchSize(): # Get valid patchwork size from user.
             size = int(input("Please enter the size of the patchwork (valid sizes are 5, 7 and 9): \n"))
             if size % 2 != 0 and size > 4 and size < 10: # If an odd number between 5 and 9:
                 break
+            print("That is not a valid size! (Please enter either 5, 7 or 9)\n") # Error for entering invalid integer(s).
         except ValueError: # If not an integer:
-            print("That's not a valid size! (Enter: 5, 7 or 9)\n")
+            print("That is not a valid size! (Please enter either 5, 7 or 9)\n") #Error for entering a non-integer.
     return size
 
 
-def getColours(): #get valid colours for patchwork from user.
-    validInputs = ["red","green","blue","orange","brown","pink"]
+def getColours(): # Get valid colours for patchwork from user.
+    validInputs = ["red", "green", "blue", "orange", "brown", "pink"]
     print("Choose three colours out of the following: red, green, blue, orange, brown or pink. \n")
-    Colour1, Colour2, Colour3 = "","","" # Starts empty to trigger following code.
-    while Colour1.lower() not in validInputs or Colour2.lower() not in validInputs or Colour3.lower() not in validInputs: # Check if values are not within the list. .lower() in case user inputs using uppercase.
-        Colour1 = input("Enter colour 1: ")
-        Colour2 = input("Enter colour 2: ")
-        Colour3 = input("Enter colour 3: ")
-        if Colour1.lower() not in validInputs or Colour2.lower() not in validInputs or Colour3.lower() not in validInputs: # If any of the inputs are still invalid...
-            print("One or more values you entered were invalid! Please enter any of the following: red, green, blue, orange, brown or pink. \n") #... then error message returned and user prompt to try again.
-            Colour1 = input("Enter colour 1: ")
-            Colour2 = input("Enter colour 2: ")
-            Colour3 = input("Enter colour 3: ")
-    selectedColours = [Colour1, Colour2, Colour3]
+    while True:
+        selectedColours = [] # Inside loop so it can reset to empty when invalid inputs are used.
+        for i in range(1,4):
+            userColour = input("Enter colour " + str(i) + ": ")
+            selectedColours.append(userColour)
+        if selectedColours[0].lower() in validInputs and selectedColours[1].lower() in validInputs and selectedColours[2].lower() in validInputs: # If all inputs are values in validInputs list.:
+            break
+        print("That is not a valid colour! Please enter any of the following: red, green, blue, orange, brown or pink. \n")
     return selectedColours     
-
 
 #LEVEL 1
 
@@ -96,16 +93,16 @@ def boxDraw(window, x, y, currentColour, colourCount):
 
 def circleDraw(window, x, y, currentColour, colourCount):
     circVals = [[5, 5], [5, 15], [15, 5], [15, 15]] # Multi-dimensional array containing relative coords of circles to draw.
-    smallCircles = [] # Reset to empty array when function is called for drawing next four circles.
+    smallCirclesList = [] # Reset to empty array when function is called for drawing next four circles.
     for c in range(4): # To create four small circles.
         smallCircle = Circle(Point(x+circVals[c][0],y+circVals[c][1]), 5) # Looks at 1st and 2nd values of index c in array.
-        smallCircles.append(smallCircle)
+        smallCirclesList.append(smallCircle)
     if colourCount % 2 == 0: # If even:
         currentColour = "white" # Don't use user defined colour.
     for i in range(4): # Does the following to all four circles:
-        smallCircles[i].setFill(currentColour)
-        smallCircles[i].setOutline(currentColour)
-        smallCircles[i].draw(window)
+        smallCirclesList[i].setFill(currentColour)
+        smallCirclesList[i].setOutline(currentColour)
+        smallCirclesList[i].draw(window)
 
 
 #LEVEL 2
