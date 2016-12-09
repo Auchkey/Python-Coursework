@@ -1,14 +1,11 @@
 from graphics import *
 
-#LEVEL 0
 
 def main():
     win, selectedColours, patchWorkSize = getInputs()
     colourList = patchDraw(win, selectedColours)
     reColour(win, selectedColours, colourList, patchWorkSize)
 
-
-#LEVEL 1�
 
 def getInputs(): # Gets colour and window size inputs from user, then creates the window.
     size = getPatchSize()
@@ -17,8 +14,6 @@ def getInputs(): # Gets colour and window size inputs from user, then creates th
     win.setBackground("white")
     return win, selectedColours, size
 
-
-#LEVEL 2
 
 def getPatchSize(): # Get valid patchwork size from user.
     while True:
@@ -45,7 +40,6 @@ def getColours(): # Get valid colours for patchwork from user.
         print("That is not a valid colour! Please enter any of the following: red, green, blue, orange, brown or pink. \n")
     return selectedColours     
 
-#LEVEL 1
 
 def patchDraw(win, colours): # Draws out the patchwork using the given inputs defined by the user.
     yCheck = (win.getHeight()/2) # Gets ycoord of midpoint of patch.
@@ -69,8 +63,6 @@ def patchDraw(win, colours): # Draws out the patchwork using the given inputs de
     return colourList
 
 
-#LEVEL 2
-
 def pattern1Draw(window, xCoord, yCoord, patternColour): # Pattern of 25 squares alternating between coloured and white. Four circles inside each oppositely coloured to square.
     colourCount = 0 
     for y in range (yCoord,yCoord+100,20):
@@ -79,8 +71,6 @@ def pattern1Draw(window, xCoord, yCoord, patternColour): # Pattern of 25 squares
             circleDraw(window, x, y, patternColour, colourCount)
             colourCount = colourCount+1 # For keeping track of which colour to use for squares and circles.
 
-
-#LEVEL 3
 
 def boxDraw(window, x, y, currentColour, colourCount):
     box = Rectangle(Point(x,y), Point(x+20,y+20))
@@ -105,8 +95,6 @@ def circleDraw(window, x, y, currentColour, colourCount):
         smallCirclesList[i].draw(window)
 
 
-#LEVEL 2
-
 def pattern2Draw(window, xCoord, yCoord, patternColour): # Pattern made up of 25 boxes with the text 'hi!' inside each box.
     for x in range(xCoord,xCoord+100,20):
         for y in range(yCoord,yCoord+100,20):
@@ -119,10 +107,7 @@ def pattern2Draw(window, xCoord, yCoord, patternColour): # Pattern made up of 25
             hi.setSize(6)
             hi.setOutline(patternColour)
             hi.draw(window)
-            
 
-
-#LEVEL 1
 
 def reColour(win, selectedColours, colourList, patchWorkSize): # Recolours patches which are clicked.
     print("\nYou may click on any patch to change the colour of it!")
@@ -143,7 +128,7 @@ def reColour(win, selectedColours, colourList, patchWorkSize): # Recolours patch
                 pattern2Draw(win, xPointToDrawFrom, yPointToDrawFrom, colourList[colourToUse])
         except:
             exit() # Exit program when unable to get user input (i.e. window was closed).
-        
+
 
 # When program is initially executed:
 print("Now running patchwork program...\n")
