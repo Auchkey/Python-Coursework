@@ -17,39 +17,6 @@ def getInputs(): #calls functions which get colour and window size inputs from u
     win.setBackground("white")
     return win, selectedColours, size
 
-
-#LEVEL 2
-
-def getPatchSize(): # Get valid patchwork size from user.
-    while True:
-        size = eval(input("Please enter the size of the patchwork (valid sizes are 5, 7 and 9)."))
-        if size % 2 != 0 and size > 4 and size < 10: # If an odd number between 5 and 9.
-            break
-        print ("That's not a valid size (5, 7 or 9)!", end='\n\n') #double new line to make repeated requests for valid input more visually user friendly.
-    return size
-
-
-def getColours(): #get valid colours for patchwork from user.
-    validInputs = ["red","green","blue","orange","brown","pink"]
-    print("Choose three colours out of the following: red, green, blue, orange, brown or pink", end='\n\n')
-    Colour1, Colour2, Colour3 = "","","" # All 3 values start off empty. They need to be assigned values before the while loop so it can apply its checks.
-    while Colour1.lower() not in validInputs or Colour2.lower() not in validInputs or Colour3.lower() not in validInputs: # Check if values are not within the list. .lower() in case user inputs using uppercase.
-        Colour1 = input("Enter colour 1: ")
-        Colour2 = input("Enter colour 2: ")
-        Colour3 = input("Enter colour 3: ")
-        
-        if Colour1.lower() not in validInputs or Colour2.lower() not in validInputs or Colour3.lower() not in validInputs: # If any of the inputs are still invalid...
-            print("One or more values you entered were invalid! Please enter any of the following: red, green, blue, orange, brown or pink", end='\n\n') #... then error message returned and user prompt to try again.
-            Colour1 = input("Enter colour 1: ")
-            Colour2 = input("Enter colour 2: ")
-            Colour3 = input("Enter colour 3: ")
-            
-    selectedColours = [Colour1, Colour2, Colour3]
-    return selectedColours     
-
-
-#LEVEL 1
-
 def patchDraw(win, colours): # Draws out the patchwork using the given inputs defined by the user.
     yCheck = (win.getHeight()/2) # Gets ycoord of the midpoint of the patch.
     colourList = [] # List for all colours per patch used when generating patchwork.
@@ -80,63 +47,6 @@ def patchDraw(win, colours): # Draws out the patchwork using the given inputs de
             #---do something similar to recolour to remove this? (i.e. look at index of colourList?)---
     return colourList
 
-
-#LEVEL 2
-
-def pattern1Draw(window, xCoord, yCoord, patternColour): # Pattern made up of 25 squares of alternating colours, with four oppositely coloured circles inside each square.
-    colourCount = 0 # Used later to keep track of which colour to use for each box and four circles design in the patch, depending on if this value is odd or even.
-    for y in range (yCoord,yCoord+100,20):
-        for x in range (xCoord,xCoord+100,20):
-            boxDraw(window, x, y, patternColour, colourCount)
-            circleDraw(window, x, y, patternColour, colourCount)
-            colourCount = colourCount+1 # Once a box (and its four circles) are drawn, counter increases by 1.
-
-
-#LEVEL 3
-
-def boxDraw(window, x, y, currentColour, colourCount):
-    box = Rectangle(Point(x,y), Point(x+20,y+20))
-    if colourCount % 2 != 0: # If an odd number, box surrounding the circles must be white. Otherwise, is whatever colour is being passed to this function.
-        currentColour = "white"
-        
-    box.setFill(currentColour)
-    box.setOutline("")
-    box.draw(window)
-
-
-def circleDraw(window, x, y, currentColour, colourCount):
-    smallCircle1 = Circle(Point(x+5,y+5), 5)
-    smallCircle2 = Circle(Point(x+5,y+15), 5) #may need to make this better, loop with array? [1[5,5],2[5,15],3[15,5],4[15,15]]???
-    smallCircle3 = Circle(Point(x+15,y+5), 5)
-    smallCircle4 = Circle(Point(x+15,y+15), 5)
-    smallCircles = [smallCircle1,smallCircle2,smallCircle3,smallCircle4]
-    if colourCount % 2 == 0: # If an even number, circles inside the box must be white. Otherwise, they are whatever colour is being passed to this function.
-        currentColour = "white" 
-    for i in range(4): # Does the following to all four circles:
-        smallCircles[i].setFill(currentColour)
-        smallCircles[i].setOutline("")
-        smallCircles[i].draw(window)
-
-
-#LEVEL 2
-
-def pattern2Draw(window, xCoord, yCoord, patternColour): # Pattern made up of 25 boxes with the word 'hi!' inside each box.
-    for x in range(xCoord,xCoord+100,20):
-        for y in range(yCoord,yCoord+100,20):
-            # Boxes part:
-            box = Rectangle(Point(x,y), Point(x+20,y+20)) # Boxes 20x20 pixels, total of 5 per row/column.
-            box.setOutline(patternColour)
-            box.draw(window)
-            # hi! part:
-            hi = Text(Point(x+10, y+10), "hi!") # Text placed in centre of each box.
-            hi.setSize(6)
-            hi.setOutline(patternColour)
-            hi.draw(window)
-            
-
-
-#LEVEL 1
-
 def reColour(win, selectedColours, colourList, patchWorkSize): # Recolours patches which are clicked on to the next colour in the list of available colours.
     while True: # Loops until window is closed...
         pointOnWindow = win.getMouse() #... as this will pass an error and terminal the program when the window is closed
@@ -155,9 +65,82 @@ def reColour(win, selectedColours, colourList, patchWorkSize): # Recolours patch
             
         else: # Otherwise, draw the second pattern.
             pattern2Draw(win, xPointToDrawFrom, yPointToDrawFrom, colourList[colourToUse])
+
+#LEVEL 2
+
+def getPatchSize(): # Get valid patchwork size from user.
+    while True:
+        size = eval(input("Please enter the size of the patchwork (valid sizes are 5, 7 and 9)."))
+        if size % 2 != 0 and size > 4 and size < 10: # If an odd number between 5 and 9.
+            break
+        print ("That's not a valid size (5, 7 or 9)!", end='\n\n') #double new line to make repeated requests for valid input more visually user friendly.
+    return size
+
+
+def getColours(): #get valid colours for patchwork from user.
+    validInputs = ["red","green","blue","orange","brown","pink"]
+    print("Choose three colours out of the following: red, green, blue, orange, brown or pink", end='\n\n')
+    Colour1, Colour2, Colour3 = "","","" # All 3 values start off empty. They need to be assigned values before the while loop so it can apply its checks.
+    while Colour1.lower() not in validInputs or Colour2.lower() not in validInputs or Colour3.lower() not in validInputs: # Check if values are not within the list. .lower() in case user inputs using uppercase.
+        Colour1 = input("Enter colour 1: ")
+        Colour2 = input("Enter colour 2: ")
+        Colour3 = input("Enter colour 3: ")
         
+        if Colour1.lower() not in validInputs or Colour2.lower() not in validInputs or Colour3.lower() not in validInputs: # If any of the inputs are still invalid...
+            print("One or more values you entered were invalid! Please enter any of the following: red, green, blue, orange, brown or pink", end='\n\n') #... then error message returned and user prompt to try again.
+            Colour1 = input("Enter colour 1: ")
+            Colour2 = input("Enter colour 2: ")
+            Colour3 = input("Enter colour 3: ")
+            
+    selectedColours = [Colour1, Colour2, Colour3]
+    return selectedColours     
+
+def pattern1Draw(window, xCoord, yCoord, patternColour): # Pattern made up of 25 squares of alternating colours, with four oppositely coloured circles inside each square.
+    colourCount = 0 # Used later to keep track of which colour to use for each box and four circles design in the patch, depending on if this value is odd or even.
+    for y in range (yCoord,yCoord+100,20):
+        for x in range (xCoord,xCoord+100,20):
+            boxDraw(window, x, y, patternColour, colourCount)
+            circleDraw(window, x, y, patternColour, colourCount)
+            colourCount = colourCount+1 # Once a box (and its four circles) are drawn, counter increases by 1.
+
+
+def pattern2Draw(window, xCoord, yCoord, patternColour): # Pattern made up of 25 boxes with the word 'hi!' inside each box.
+    for x in range(xCoord,xCoord+100,20):
+        for y in range(yCoord,yCoord+100,20):
+            # Boxes part:
+            box = Rectangle(Point(x,y), Point(x+20,y+20)) # Boxes 20x20 pixels, total of 5 per row/column.
+            box.setOutline(patternColour)
+            box.draw(window)
+            # hi! part:
+            hi = Text(Point(x+10, y+10), "hi!") # Text placed in centre of each box.
+            hi.setSize(6)
+            hi.setOutline(patternColour)
+            hi.draw(window)
+
+            
+#LEVEL 3
+
+def boxDraw(window, x, y, currentColour, colourCount):
+    box = Rectangle(Point(x,y), Point(x+20,y+20))
+    if colourCount % 2 != 0: # If an odd number, box surrounding the circles must be white. Otherwise, is whatever colour is being passed to this function.
+        currentColour = "white"  
+    box.setFill(currentColour)
+    box.setOutline("")
+    box.draw(window)
+
+def circleDraw(window, x, y, currentColour, colourCount):
+    smallCircle1 = Circle(Point(x+5,y+5), 5)
+    smallCircle2 = Circle(Point(x+5,y+15), 5) #may need to make this better, loop with array? [1[5,5],2[5,15],3[15,5],4[15,15]]???
+    smallCircle3 = Circle(Point(x+15,y+5), 5)
+    smallCircle4 = Circle(Point(x+15,y+15), 5)
+    smallCircles = [smallCircle1,smallCircle2,smallCircle3,smallCircle4]
+    if colourCount % 2 == 0: # If an even number, circles inside the box must be white. Otherwise, they are whatever colour is being passed to this function.
+        currentColour = "white" 
+    for i in range(4): # Does the following to all four circles:
+        smallCircles[i].setFill(currentColour)
+        smallCircles[i].setOutline("")
+        smallCircles[i].draw(window)
 
 #Stuff to do when program is initially executed:
-
 print("Now running patchwork program...", end='\n\n')
 main()
